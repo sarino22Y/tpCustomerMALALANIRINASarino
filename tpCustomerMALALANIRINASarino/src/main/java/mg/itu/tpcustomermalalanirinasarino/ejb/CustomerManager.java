@@ -27,8 +27,8 @@ public class CustomerManager {
     public List<Customer> getAllCustomers() {
         Query query = em.createNamedQuery("Customer.findAll");
         return query.getResultList();  
-    }  
-        
+    }   
+
     public Customer update(Customer customer) {
         return em.merge(customer);  
     }         

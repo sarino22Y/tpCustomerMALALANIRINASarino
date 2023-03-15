@@ -6,12 +6,15 @@ package mg.itu.tpcustomermalalanirinasarino.entities;
 
 import java.io.Serializable;
 import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.Collection;
 
 /**
  *
@@ -39,6 +42,8 @@ public class MicroMarket implements Serializable {
     private Double areaLength;
     @Column(name = "AREA_WIDTH")
     private Double areaWidth;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "zip")
+    private Collection<Customer> customerCollection;
 
     public MicroMarket() {
     }
@@ -77,6 +82,14 @@ public class MicroMarket implements Serializable {
 
     public void setAreaWidth(Double areaWidth) {
         this.areaWidth = areaWidth;
+    }
+    
+    public Collection<Customer> getCustomerCollection() {
+        return customerCollection;
+    }
+
+    public void setCustomerCollection(Collection<Customer> customerCollection) {
+        this.customerCollection = customerCollection;
     }
 
     @Override
