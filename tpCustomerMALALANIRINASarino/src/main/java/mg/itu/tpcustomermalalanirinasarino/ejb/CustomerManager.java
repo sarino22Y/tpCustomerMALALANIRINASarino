@@ -6,9 +6,9 @@ package mg.itu.tpcustomermalalanirinasarino.ejb;
 
 import jakarta.ejb.Stateless;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import mg.itu.tpcustomermalalanirinasarino.entities.Customer;
 
 /**
@@ -17,7 +17,7 @@ import mg.itu.tpcustomermalalanirinasarino.entities.Customer;
  */
 @Stateless
 public class CustomerManager {
-    @PersistenceContext
+    @PersistenceContext(unitName = "customerPU")
     private EntityManager em;
 
     public void persist(Customer customer) {
