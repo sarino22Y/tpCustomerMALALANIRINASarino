@@ -9,6 +9,8 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
@@ -22,8 +24,6 @@ import jakarta.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "Customer.findAll", query = "SELECT c FROM Customer c"),
     @NamedQuery(name = "Customer.findByCustomerId", query = "SELECT c FROM Customer c WHERE c.customerId = :customerId"),
-    @NamedQuery(name = "Customer.findByDiscountCode", query = "SELECT c FROM Customer c WHERE c.discount = :discount"),
-    @NamedQuery(name = "Customer.findByZip", query = "SELECT c FROM Customer c WHERE c.zip = :zip"),
     @NamedQuery(name = "Customer.findByName", query = "SELECT c FROM Customer c WHERE c.name = :name"),
     @NamedQuery(name = "Customer.findByAddressline1", query = "SELECT c FROM Customer c WHERE c.addressline1 = :addressline1"),
     @NamedQuery(name = "Customer.findByAddressline2", query = "SELECT c FROM Customer c WHERE c.addressline2 = :addressline2"),
@@ -40,12 +40,6 @@ public class Customer implements Serializable {
     @Basic(optional = false)
     @Column(name = "CUSTOMER_ID")
     private Integer customerId;
-    @Basic(optional = false)
-    @Column(name = "DISCOUNT_CODE")
-    private Character discount;
-    @Basic(optional = false)
-    @Column(name = "ZIP")
-    private String zip;
     @Column(name = "NAME")
     private String name;
     @Column(name = "ADDRESSLINE1")
@@ -64,6 +58,12 @@ public class Customer implements Serializable {
     private String email;
     @Column(name = "CREDIT_LIMIT")
     private Integer creditLimit;
+    @JoinColumn(name = "DISCOUNT_CODE", referencedColumnName = "CODE")
+    @ManyToOne(optional = false)
+    private Discount discount;
+    @JoinColumn(name = "ZIP", referencedColumnName = "ZIP_CODE")
+    @ManyToOne(optional = false)
+    private MicroMarket zip;
 
     public Customer() {
     }
@@ -71,35 +71,13 @@ public class Customer implements Serializable {
     public Customer(Integer customerId) {
         this.customerId = customerId;
     }
-
-    public Customer(Integer customerId, Character discount, String zip) {
-        this.customerId = customerId;
-        this.discount = discount;
-        this.zip = zip;
-    }
-
+    
     public Integer getCustomerId() {
         return customerId;
     }
 
     public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
-    }
-
-    public Character getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(Character discount) {
-        this.discount = discount;
-    }
-
-    public String getZip() {
-        return zip;
-    }
-
-    public void setZip(String zip) {
-        this.zip = zip;
     }
 
     public String getName() {
@@ -173,7 +151,23 @@ public class Customer implements Serializable {
     public void setCreditLimit(Integer creditLimit) {
         this.creditLimit = creditLimit;
     }
+    
+    public Discount getDiscount() {
+        return discount;
+    }
 
+    public void setDiscount(Discount discount) {
+        this.discount = discount;
+    }
+
+    public MicroMarket getZip() {
+        return zip;
+    }
+
+    public void setZip(MicroMarket zip) {
+        this.zip = zip;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
